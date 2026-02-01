@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import "tailwindcss";
+@plugin "daisyui";
+@theme {
+  --color-realorange: #D87D4A;
+  --color-faintorange: #fbaf85;
+  --color-Gray: #F1F1F1;
+  --color-fantaGray : #FAFAFA;
+  --color-dark: #101010;
+  --font-manrope :"Manrope"
+}
+
