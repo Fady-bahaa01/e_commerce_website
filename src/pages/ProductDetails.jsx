@@ -95,7 +95,7 @@ export default function ProductDetails() {
       <div className="container w-full flex items-center flex-col justify-center max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
         <div className="w-full mt-19.75">
           <Link
-            to={"../"}
+            to={"/category/" + product?.category?.documentId}
             className="font-manrope font-normal text-[15px] leading-6.25 text-black/50 hover:text-realorange"
           >
             {" "}

@@ -16,7 +16,7 @@ export default function SuggestionCart({ product }) {
         <img
           src={domain + product?.prodimage.url}
           alt=""
-          className="w-18.25 md:w-[148.31px] h-21.75 md:h-48.25"
+          className="w-18.25 md:w-[148.31px] h-21.75 md:h-48.25 "
         />
       </div>
       <p className="font-manrope font-bold text-center text-black text-[24px] tracking-[1.71px] mt-10 uppercase">

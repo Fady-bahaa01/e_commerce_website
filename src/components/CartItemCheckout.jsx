@@ -2,7 +2,6 @@ import { domain } from "../store";
 import { useCart } from "../store";
 
 export default function CartItemCheckout({ product }) {
-  const { incrementQty, decrementQty } = useCart();
   return (
     <div
       key={product.documentId}

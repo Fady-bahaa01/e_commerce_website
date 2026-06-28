@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { domain } from "../store";
 import axios from "axios";
 import CategoriesCart from "../components/CategoriesCart";
+import useCategories from "../hooks/useCategories";
 
 export default function Category() {
   const param = useParams();
@@ -10,8 +11,11 @@ export default function Category() {
   const [catDetails, setCatDetails] = useState([]);
   const [category, setCategory] = useState([]);
   let catId = param?.id;
+  const heroRef = useRef(null);
+  const cardsRef = useRef([]);
+  useCategories(cardsRef, heroRef, items);
+
   useEffect(() => {
-    let catId = param?.id;
     let url = domain + `/api/categories/${catId}`;
     let url2 = domain + "/api/categories";
     axios
@@ -53,9 +57,12 @@ export default function Category() {
 
   return (
     <div className="w-full h-full">
-      <div className="w-full h-73.25 bg-black flex justify-center items-center">
+      <div className="w-full h-73.25 bg-[#0E0E0E] flex justify-center items-center">
         <div className="container w-full flex items-center justify-center max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
-          <h1 className="font-manrope font-bold text-white text-[40px] leading-11 tracking-[1.43px] uppercase">
+          <h1
+            ref={heroRef}
+            className="font-manrope font-bold text-white text-[40px] leading-11 tracking-[1.43px] uppercase"
+          >
             {catDetails?.name}
           </h1>
         </div>
@@ -65,6 +72,7 @@ export default function Category() {
           {items?.map((el, index) => (
             <div
               key={el?.documentId}
+              ref={(elRef) => (cardsRef.current[index] = elRef)}
               className={`w-full h-176.5 lg:h-140 flex flex-col lg:flex-nowrap gap-8 md:gap-13 lg:gap-31.25 ${
                 index % 2 == 0 ? "lg:flex-row" : "lg:flex-row-reverse"
               }`}
@@ -73,10 +81,10 @@ export default function Category() {
                 <img
                   src={domain + el?.prodimage.url}
                   alt=""
-                  className="w-55 h-60.75 lg:w-[349.24px] lg:h-96.5"
+                  className="product-image w-55 h-60.75 lg:w-[349.24px] lg:h-96.5"
                 />
               </div>
-              <div className="flex flex-col items-center lg:block w-full md:w-111.25 h-85.75 md:mx-24.5 lg:mx-0 lg:my-27.25">
+              <div className="product-content flex flex-col items-center lg:block w-full md:w-111.25 h-85.75 md:mx-24.5 lg:mx-0 lg:my-27.25">
                 <p className="font-manrope font-normal text-[14px] text-realorange tracking-[10px]">
                   NEW PRODUCT
                 </p>

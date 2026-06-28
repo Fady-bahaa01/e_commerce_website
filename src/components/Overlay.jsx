@@ -8,7 +8,7 @@ export default function Overlay() {
       {value ? (
         <div
           onClick={closeMenu}
-          className={`w-full fixed h-200 md:h-225 inset-0 z-20 bg-black/50`}
+          className={`w-full fixed h-200 md:h-225 inset-0 z-20 bg-black/50 `}
         ></div>
       ) : null}
     </div>

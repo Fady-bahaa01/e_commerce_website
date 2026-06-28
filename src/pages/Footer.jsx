@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { domain } from "../store";
 
-export default function Footer() {
+export default function Footer({ margin }) {
   let face = useNavigate();
   let twitter = useNavigate();
   let insta = useNavigate();
@@ -29,7 +29,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <div className="w-full flex justify-center h-163.5 md:h-100 lg:h-91.25 bg-dark mt-50">
+    <div className="w-full flex justify-center h-163.5 md:h-100 lg:h-91.25 bg-dark ">
       <div className="container h-full flex flex-col items-center md:items-start  w-full max-w-81.75 md:max-w-172.25 lg:max-w-277.5 relative">
         <div className="w-25.25 h-1 bg-realorange mb-14 lg:mb-17.75"></div>
         <div className="w-full lg:h-6.25 flex gap-12 md:gap-0 lg:justify-between flex-col lg:flex-row">
@@ -69,19 +69,19 @@ export default function Footer() {
               onClick={() => {
                 face("../https://www.facebook.com/");
               }}
-              className="w-6 h-6 hover:text-realorange"
+              className="w-6 h-6 hover:text-realorange cursor-pointer"
             />
             <FaTwitter
               onClick={() => {
                 twitter("../https://x.com/");
               }}
-              className="w-6 h-6 hover:text-realorange"
+              className="w-6 h-6 hover:text-realorange cursor-pointer"
             />
             <FaInstagram
               onClick={() => {
                 insta("../https://www.instagram.com/");
               }}
-              className="w-6 h-6 hover:text-realorange"
+              className="w-6 h-6 hover:text-realorange cursor-pointer"
             />
           </div>
         </div>

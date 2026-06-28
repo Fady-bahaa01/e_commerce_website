@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export const domain = "http://localhost:1337";
 
@@ -33,62 +34,85 @@ export const cart = create((set) => ({
     }),
 }));
 
-export const useCart = create((set) => ({
-  items: [],
+export const useCart = create(
+  persist(
+    (set) => ({
+      items: [],
+      count: 0,
+      total: 0,
 
-  count: 0,
+      addToCart: (newproduct) =>
+        set((state) => {
+          let product = state.items;
 
-  total: 0,
+          let final = product.findIndex((el) => {
+            return el.documentId === newproduct.documentId;
+          });
 
-  addToCart: (newproduct) =>
-    set((state) => {
-      let product = state.items;
+          if (final === -1) {
+            return {
+              items: [...state.items, newproduct],
+              count: state.count + 1,
+            };
+          }
 
-      let final = product.findIndex((el) => {
-        return el.documentId === newproduct.documentId;
-      });
+          const updateItems = state.items.map((el, index) =>
+            index === final ? { ...el, qty: el.qty + newproduct.qty } : el,
+          );
 
-      if (final === -1) {
-        return {
-          items: [...state.items, newproduct],
-          count: (state.count += 1),
-        };
-        // product.push(newproduct);
-      }
-      const updateItems = state.items.map((el, index) =>
-        index === final ? { ...el, qty: el.qty + newproduct.qty } : el,
-      );
+          return { items: updateItems };
+        }),
 
-      return { items: updateItems };
+      incrementQty: (documentId) =>
+        set((state) => ({
+          items: state.items.map((el) =>
+            el.documentId === documentId ? { ...el, qty: el.qty + 1 } : el,
+          ),
+        })),
+
+      decrementQty: (documentId) =>
+        set((state) => ({
+          items: state.items.map((el) =>
+            el.documentId === documentId && el.qty > 1
+              ? { ...el, qty: el.qty - 1 }
+              : el,
+          ),
+        })),
+
+      removeFromCart: () =>
+        set(() => {
+          return { items: [], count: 0, total: 0 };
+        }),
+
+      calcTotal: () =>
+        set((state) => {
+          let finalTotal = 0;
+
+          state.items.forEach((el) => {
+            finalTotal += el.qty * el.price;
+          });
+
+          return { total: finalTotal };
+        }),
     }),
+    {
+      name: "cart-storage",
+    },
+  ),
+);
 
-  incrementQty: (documentId) =>
-    set((state) => ({
-      items: state.items.map((el) =>
-        el.documentId === documentId ? { ...el, qty: (el.qty += 1) } : el,
-      ),
-    })),
-
-  decrementQty: (documentId) =>
-    set((state) => ({
-      items: state.items.map((el) =>
-        el.documentId === documentId && el.qty > 1
-          ? { ...el, qty: (el.qty -= 1) }
-          : el,
-      ),
-    })),
-
-  removeFromCart: () =>
+export const toggleSuccesBox = create((set) => ({
+  value: false,
+  openBox: () =>
     set(() => {
-      return { items: [], count: 0 };
+      return {
+        value: true,
+      };
     }),
-
-  calcTotal: () =>
-    set((state) => {
-      let finalTotal = 0;
-      state.items.forEach((el) => {
-        finalTotal += el.qty * el.price;
-      });
-      return { total: finalTotal };
+  closeBox: () =>
+    set(() => {
+      return {
+        value: false,
+      };
     }),
 }));
