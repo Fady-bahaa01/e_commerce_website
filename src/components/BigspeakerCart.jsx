@@ -19,7 +19,7 @@ export default function BigspeakerCart() {
         params: {
           filters: {
             id: {
-              $in: [37],
+              $in: [12],
             },
           },
           populate: "*",

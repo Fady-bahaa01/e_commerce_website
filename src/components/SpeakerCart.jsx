@@ -22,7 +22,7 @@ export default function SpeakerCart() {
         params: {
           filters: {
             id: {
-              $in: [56],
+              $in: [13],
             },
           },
           populate: "*",

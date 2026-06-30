@@ -32,7 +32,7 @@ export default function Homepage() {
         params: {
           filters: {
             id: {
-              $in: [57, 56, 55, 54],
+              $in: [16, 13, 12, 11],
             },
           },
           populate: "*",
@@ -260,7 +260,10 @@ export default function Homepage() {
       </div>
       <div className="flex justify-center items-center">
         <div className="container w-full max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
-          <div className=" w-full mt-50  grid md:grid-cols-3 grid-cols-1 md:gap-2.5 lg:gap-7.5 gap-17">
+          <div
+            ref={gridRef}
+            className=" w-full mt-50 grid md:grid-cols-3 grid-cols-1 md:gap-2.5 lg:gap-7.5 gap-17"
+          >
             {category?.map((el, index) => (
               <div key={el.documentId}>
                 {" "}

@@ -21,7 +21,7 @@ export default function EarphoneCart() {
         params: {
           filters: {
             id: {
-              $in: [36],
+              $in: [11],
             },
           },
           populate: "*",
