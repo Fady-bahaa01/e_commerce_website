@@ -26,7 +26,6 @@ export default function BigspeakerCart() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setProduct(res.data.data);
       });
   }, []);

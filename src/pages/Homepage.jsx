@@ -39,7 +39,6 @@ export default function Homepage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setProduct(res.data.data);
       })
       .catch((err) => {});
@@ -55,7 +54,6 @@ export default function Homepage() {
       })
       .then((res) => {
         setCategory(res.data.data);
-        console.log(res.data.data);
       })
       .catch((err) => {});
 
@@ -227,7 +225,7 @@ export default function Homepage() {
                 ref={title}
                 className="text-center lg:text-start font-manrope font-bold text-[37px] md:text-[56px] tracking-[2px] uppercase text-white leading-14.5 mt-4 md:mt-6"
               >
-                {product[0]?.name}
+                {product[3]?.name}
               </h2>
               <p
                 ref={subtitle}
@@ -238,7 +236,7 @@ export default function Homepage() {
               </p>
               <Link
                 ref={button}
-                to={`/product/${product[0]?.documentId}`}
+                to={`/product/${product[3]?.documentId}`}
                 className="w-40 h-12 md:mt-10 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
               >
                 See Product
