@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export const domain =
-  "http://ecommercewebsite-database-production-a30e.up.railway.app";
+  "https://ecommercewebsite-database-production-a30e.up.railway.app";
 
 export const toggleMenu = create((set) => ({
   value: false,
