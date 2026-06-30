@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const domain = "http://localhost:1337";
+export const domain =
+  "http://ecommercewebsite-database-production.up.railway.app";
 
 export const toggleMenu = create((set) => ({
   value: false,
