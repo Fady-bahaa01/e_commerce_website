@@ -70,71 +70,75 @@ export default function Mainlayout() {
         ></div>
       )}
 
-      <div
-        onClick={(event) => {
-          event.stopPropagation();
-        }}
-        ref={menuRef}
-        className={`z-50  fixed top-0 left-0 w-full h-187.5 md:h-85 flex justify-center items-center lg:hidden bg-white  `}
-      >
-        <div className="container flex justify-center  max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
-          <div className="w-full  grid md:grid-cols-3 grid-cols-1 md:gap-2.5 gap-17">
-            {category?.map((el) => (
-              <CategoriesCart product={el} key={el?.documentId} />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div
-        ref={cartRef}
-        className={`z-50  fixed top-8 rounded-lg right-0 w-81.75 md:w-94.25 h-122 md:h-122 flex justify-center   bg-white  `}
-      >
-        <div className="container max-w-67.75 md:max-w-78.25 mt-7.75">
-          <div className="w-full h-6.25 flex justify-between">
-            <p className="font-manrope font-bold text-[18px] tracking-[1.29px] text-black uppercase">
-              {`cart (${count})`}
-            </p>
-            <button
-              onClick={removeFromCart}
-              className="font-manrope font-bold text-[15px] leading-6.25 underline-offset-1 text-black/50 uppercase cursor-pointer"
-            >
-              remove all
-            </button>
-          </div>
-          {items.length == 0 ? (
-            <div className="w-full h-full flex justify-center items-center">
-              <p className="font-manrope font-bold text-[18px] tracking-[1.17px] text-black uppercase">
-                there is no items added
-              </p>
-            </div>
-          ) : (
-            <div className="w-full mt-8 h-60 overflow-auto flex flex-col gap-6">
-              {items?.map((el) => (
-                <CartItem key={el.documentId} product={el} />
+      {value && (
+        <div
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+          ref={menuRef}
+          className={`z-50  fixed top-0 left-0 w-full h-187.5 md:h-85 flex justify-center items-center lg:hidden bg-white  `}
+        >
+          <div className="container flex justify-center  max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
+            <div className="w-full  grid md:grid-cols-3 grid-cols-1 md:gap-2.5 gap-17">
+              {category?.map((el) => (
+                <CategoriesCart product={el} key={el?.documentId} />
               ))}
             </div>
-          )}
-
-          {items.length !== 0 && (
-            <div>
-              <div className="w-full flex justify-between mt-8">
-                <p className="font-manrope font-bold text-[15px] leading-6.25  text-black/50 uppercase">
-                  total
-                </p>
-                <p className="font-manrope font-bold text-black text-[18px]">
-                  $ {total}
+          </div>
+        </div>
+      )}
+      {state && (
+        <div
+          ref={cartRef}
+          className={`z-50  fixed top-8 rounded-lg right-0 w-81.75 md:w-94.25 h-122 md:h-122 flex justify-center   bg-white  `}
+        >
+          <div className="container max-w-67.75 md:max-w-78.25 mt-7.75">
+            <div className="w-full h-6.25 flex justify-between">
+              <p className="font-manrope font-bold text-[18px] tracking-[1.29px] text-black uppercase">
+                {`cart (${count})`}
+              </p>
+              <button
+                onClick={removeFromCart}
+                className="font-manrope font-bold text-[15px] leading-6.25 underline-offset-1 text-black/50 uppercase cursor-pointer"
+              >
+                remove all
+              </button>
+            </div>
+            {items.length == 0 ? (
+              <div className="w-full h-full flex justify-center items-center">
+                <p className="font-manrope font-bold text-[18px] tracking-[1.17px] text-black uppercase">
+                  there is no items added
                 </p>
               </div>
-              <Link
-                to={"./checkout"}
-                className="w-full h-12 md:mt-6 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
-              >
-                checkout
-              </Link>
-            </div>
-          )}
+            ) : (
+              <div className="w-full mt-8 h-60 overflow-auto flex flex-col gap-6">
+                {items?.map((el) => (
+                  <CartItem key={el.documentId} product={el} />
+                ))}
+              </div>
+            )}
+
+            {items.length !== 0 && (
+              <div>
+                <div className="w-full flex justify-between mt-8">
+                  <p className="font-manrope font-bold text-[15px] leading-6.25  text-black/50 uppercase">
+                    total
+                  </p>
+                  <p className="font-manrope font-bold text-black text-[18px]">
+                    $ {total}
+                  </p>
+                </div>
+                <Link
+                  to={"./checkout"}
+                  className="w-full h-12 md:mt-6 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
+                >
+                  checkout
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <Header />
       <div className={`w-full flex items-center justify-center `}>
         <Outlet />
