@@ -10,6 +10,7 @@ import gsap from "gsap";
 import useHeaderEntrance from "../hooks/useHeaderEntrance";
 import useCartHover from "../hooks/useCartHover";
 import useCartBadge from "../hooks/useCartBadge";
+import useStickyHeader from "../hooks/useStickyHeader";
 
 export default function Header() {
   const [category, setCategory] = useState([]);
@@ -21,7 +22,10 @@ export default function Header() {
   const Cart = useRef(null);
   const badge = useRef(null);
   const menuRef = useRef(null);
+  const headerRef = useRef(null);
   useHeaderEntrance(logo, navItems, Cart, category);
+
+  useStickyHeader(headerRef, logo);
 
   useCartHover(Cart);
 
@@ -80,7 +84,10 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="w-full h-24 sticky top-0  flex justify-center items-center bg-[#0E0E0E] ">
+    <div
+      ref={headerRef}
+      className="w-full h-24 sticky top-0 z-50 flex justify-center items-center bg-[#0E0E0E] "
+    >
       <div className=" container h-full w-full md:max-w-172.25 px-6 md:px-0 lg:max-w-277.5 border-b border-white/10 lg:border-white/20 flex items-center  justify-between relative">
         <MdOutlineMenu
           ref={menuRef}

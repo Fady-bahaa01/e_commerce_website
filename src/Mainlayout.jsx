@@ -58,7 +58,7 @@ export default function Mainlayout() {
   // }, [state, value]);
 
   return (
-    <div className="w-full overflow-auto bg-white">
+    <div className="w-full  bg-white">
       {(state || value) && (
         <div
           ref={overlayRef}
