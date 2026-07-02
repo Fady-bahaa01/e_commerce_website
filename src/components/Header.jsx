@@ -80,7 +80,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="w-full h-24  flex justify-center items-center bg-[#0E0E0E] ">
+    <div className="w-full h-24 sticky top-0  flex justify-center items-center bg-[#0E0E0E] ">
       <div className=" container h-full w-full md:max-w-172.25 px-6 md:px-0 lg:max-w-277.5 border-b border-white/10 lg:border-white/20 flex items-center  justify-between relative">
         <MdOutlineMenu
           ref={menuRef}
