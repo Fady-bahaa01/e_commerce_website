@@ -10,6 +10,8 @@ import EarphoneCart from "../components/EarphoneCart";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import HeroSkeleton from "../Skeletons/HeroSkeleton";
+import CategoriesSkeleton from "../Skeletons/CategoriesSkeleton";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -221,12 +223,16 @@ export default function Homepage() {
               <p className="font-manrope font-normal text-[14px] text-white/45 tracking-[10px]">
                 NEW PRODUCT
               </p>
-              <h2
-                ref={title}
-                className="text-center lg:text-start font-manrope font-bold text-[37px] md:text-[56px] tracking-[2px] uppercase text-white leading-14.5 mt-4 md:mt-6"
-              >
-                {product[3]?.name}
-              </h2>
+              {product.length === 0 ? (
+                <HeroSkeleton />
+              ) : (
+                <h2
+                  ref={title}
+                  className="text-center lg:text-start font-manrope font-bold text-[37px] md:text-[56px] tracking-[2px] uppercase text-white leading-14.5 mt-4 md:mt-6"
+                >
+                  {product[3]?.name}
+                </h2>
+              )}
               <p
                 ref={subtitle}
                 className="text-center lg:text-start w-82 mb-7 md:mb-0 md:w-87.25 font-manrope font-normal text-[15px] text-white/75 leading-6.25 mt-6"
@@ -262,12 +268,16 @@ export default function Homepage() {
             ref={gridRef}
             className=" w-full mt-50 grid md:grid-cols-3 grid-cols-1 md:gap-2.5 lg:gap-7.5 gap-17"
           >
-            {category?.map((el, index) => (
-              <div key={el.documentId}>
-                {" "}
-                <CategoriesCart product={el} />
-              </div>
-            ))}
+            {category.length == 0 ? (
+              <CategoriesSkeleton />
+            ) : (
+              category?.map((el, index) => (
+                <div key={el.documentId}>
+                  {" "}
+                  <CategoriesCart product={el} />
+                </div>
+              ))
+            )}
           </div>
           <SpeakerCart />
           <BigspeakerCart />

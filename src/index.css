@@ -10,3 +10,13 @@
   --font-manrope :"Manrope"
 }
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.6s infinite;
+}
+
