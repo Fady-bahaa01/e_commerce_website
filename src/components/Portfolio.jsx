@@ -9,13 +9,13 @@ export default function Portfolio() {
   let style = `font-manrope font-bold md:text-[40px] md:tracking-[1.43px] md:leading-11 uppercase `;
 
   const sectionRef = useRef(null);
-  const textRef = useRef(null);
+  const TextRef = useRef(null);
   const imgRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        textRef.current,
+        TextRef.current,
         {
           y: 60,
           opacity: 0,
@@ -69,7 +69,7 @@ export default function Portfolio() {
       className="w-full h-172.25 md:h-158.25 lg:h-147 flex flex-wrap lg:flex-nowrap justify-center items-center md:gap-15.75 lg:gap-31.25"
     >
       <div
-        ref={textRef}
+        ref={TextRef}
         className="md:w-143.25 md:h-67.5 lg:w-111.25 lg:h-73.75 order-2 flex flex-col items-center justify-center lg:block lg:order-1 mt-10 md:mt-0 lg:mt-0"
       >
         <h2
