@@ -1,27 +1,28 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { domain } from "../store";
 import axios from "axios";
 
-export default function ProductImages({ item, className }) {
+const ProductImages = forwardRef(({ item, className }, ref) => {
   const [product, setProduct] = useState([]);
 
-  useEffect(() => {
-    let url = domain + "/api/products";
-    axios
-      .get(url, {
-        params: {
-          populate: "*",
-        },
-      })
-      .then((res) => {
-        console.log(res.data.data);
-        setProduct(res.data.data);
-      })
-      .catch((err) => {});
-  }, []);
+  // useEffect(() => {
+  //   let url = domain + "/api/products";
+  //   axios
+  //     .get(url, {
+  //       params: {
+  //         populate: "*",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data.data);
+  //       setProduct(res.data.data);
+  //     })
+  //     .catch((err) => {});
+  // }, []);
 
   return (
     <div
+      ref={ref}
       className={`w-full h-full rounded-lg ${className} `}
       style={{
         backgroundImage: `url(${domain + item?.url})`,
@@ -31,4 +32,6 @@ export default function ProductImages({ item, className }) {
       }}
     ></div>
   );
-}
+});
+
+export default ProductImages;

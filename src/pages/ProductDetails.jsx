@@ -11,6 +11,10 @@ import useFeaturesAnimation from "../hooks/product/useFeaturesAnimation";
 import useGalleryAnimation from "../hooks/product/useGalleryAnimation";
 import useSuggestionAnimation from "../hooks/product/useSuggestionAnimation";
 import useAddToCartAnimation from "../hooks/product/useAddToCartAnimation";
+import useQuantityAnimation from "../hooks/product/useQuantityAnimation";
+import useGoBackAnimation from "../hooks/product/useGoBackAnimation";
+import useProductTransition from "../hooks/product/useProductTransition";
+import useGalleryHover from "../hooks/product/useGalleryHover";
 
 export default function ProductDetails() {
   const param = useParams();
@@ -19,20 +23,48 @@ export default function ProductDetails() {
   const [category, setCategory] = useState([]);
   const [item, setItems] = useState([]);
   const [youMayAlsoLike, setYouMayAlsoLike] = useState([]);
+
   const imageRef = useRef(null);
+
   const contentRef = useRef(null);
 
   const titleRef = useRef(null);
+
   const descriptionRef = useRef(null);
+
   const priceRef = useRef(null);
 
   const quantityRef = useRef(null);
-  const addToCartRef = useRef(null);
+
+  const { buttonRef: addToCartRef, animate } = useAddToCartAnimation();
 
   const featuresRef = useRef(null);
+
   const galleryRef = useRef(null);
+
+  const galleryImagesRef = useRef([]);
+
   const suggestionsRef = useRef(null);
+
+  const suggestionTitleRef = useRef(null);
+
+  const cardsRef = useRef([]);
+
   const boxRef = useRef(null);
+
+  const featureTitleRef = useRef(null);
+
+  const boxItemsRef = useRef([]);
+
+  const quantityNumberRef = useRef(null);
+
+  const plusRef = useRef(null);
+
+  const minusRef = useRef(null);
+
+  const goBackRef = useRef(null);
+
+  const featureParagraphRef = useRef(null);
 
   useHeroAnimation(
     imageRef,
@@ -45,13 +77,26 @@ export default function ProductDetails() {
     param.id,
   );
 
-  useFeaturesAnimation(featuresRef, boxRef, param.id);
+  useGalleryAnimation(galleryRef, galleryImagesRef, param.id);
 
-  useGalleryAnimation(galleryRef, param.id);
+  useGalleryHover(galleryImagesRef);
 
-  useSuggestionAnimation(suggestionsRef, param.id);
+  useSuggestionAnimation(
+    suggestionsRef,
+    cardsRef,
+    suggestionTitleRef,
+    param.id,
+  );
 
-  const animateAddToCart = useAddToCartAnimation(addToCartRef);
+  useQuantityAnimation({
+    plusRef,
+    minusRef,
+    quantityNumberRef,
+  });
+
+  useGoBackAnimation(goBackRef);
+
+  useProductTransition(param.id);
 
   const incrementQty = () => {
     setProduct((prev) => ({
@@ -132,6 +177,7 @@ export default function ProductDetails() {
       <div className="container w-full flex items-center flex-col justify-center max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
         <div className="w-full mt-19.75">
           <Link
+            ref={goBackRef}
             to={"/category/" + product?.category?.documentId}
             className="font-manrope font-normal text-[15px] leading-6.25 text-black/50 hover:text-realorange"
           >
@@ -178,6 +224,7 @@ export default function ProductDetails() {
               <div ref={quantityRef} className="w-30 h-12 bg-Gray flex mt-auto">
                 <div className="w-1/3 h-full flex justify-center items-center">
                   <button
+                    ref={minusRef}
                     onClick={() => decrementQty(product?.documentId)}
                     className="font-manrope font-bold text-[15px] text-black/25 tracking-[1px] cursor-pointer"
                   >
@@ -185,12 +232,16 @@ export default function ProductDetails() {
                   </button>
                 </div>
                 <div className="w-1/3 h-full flex justify-center items-center">
-                  <p className="font-manrope font-bold text-[15px] text-black tracking-[1px]">
+                  <p
+                    ref={quantityNumberRef}
+                    className="font-manrope font-bold text-[15px] text-black tracking-[1px]"
+                  >
                     {product?.qty}
                   </p>
                 </div>
                 <div className="w-1/3 h-full flex justify-center items-center">
                   <button
+                    ref={plusRef}
                     onClick={() => incrementQty(product?.documentId)}
                     className="font-manrope font-bold text-[15px] text-black/25 tracking-[1px] cursor-pointer"
                   >
@@ -200,7 +251,10 @@ export default function ProductDetails() {
               </div>
               <button
                 ref={addToCartRef}
-                onClick={() => addToCart(product)}
+                onClick={() => {
+                  addToCart(product);
+                  animate();
+                }}
                 className="w-40 h-12 mt-6 lg:mt-10 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
               >
                 ADD TO CART
@@ -213,10 +267,16 @@ export default function ProductDetails() {
             ref={featuresRef}
             className="w-full lg:w-158.75 h-133.75 md:h-79.5 lg:h-full"
           >
-            <h2 className="font-manrope font-bold text-[24px] md:text-[32px] leading-9 tracking-[1.14px] text-black">
+            <h2
+              ref={featureTitleRef}
+              className="font-manrope font-bold text-[24px] md:text-[32px] leading-9 tracking-[1.14px] text-black"
+            >
               FEATURES
             </h2>
-            <p className=" font-manrope font-normal text-[15px] text-black/50 leading-6.25 mt-6 md:mt-8">
+            <p
+              ref={featureParagraphRef}
+              className=" font-manrope font-normal text-[15px] text-black/50 leading-6.25 mt-6 md:mt-8"
+            >
               {product?.feature}
             </p>
           </div>
@@ -228,8 +288,12 @@ export default function ProductDetails() {
               in the box
             </h2>
             <div>
-              {product?.boxitem?.map((el) => (
-                <div className="flex lg:gap-5 mt-2" key={el.documentId}>
+              {product?.boxitem?.map((el, index) => (
+                <div
+                  ref={(el) => (boxItemsRef.current[index] = el)}
+                  className="flex lg:gap-5 mt-2"
+                  key={el.documentId}
+                >
                   <p className="font-manrope font-bold text-[15px] text-realorange leading-6.25">
                     {el?.quantity}
                   </p>
@@ -248,6 +312,7 @@ export default function ProductDetails() {
           >
             {product?.productimages?.map((el, index) => (
               <ProductImages
+                ref={(el) => (galleryImagesRef.current[index] = el)}
                 number={index}
                 item={el}
                 key={el.documentId}
@@ -257,15 +322,22 @@ export default function ProductDetails() {
           </div>
         )}
         <div className="w-full h-245.75 md:h-140.75 lg:h-142.75 mt-40 flex flex-col items-center">
-          <h2 className="font-manrope font-bold text-[32px] tracking-[1.14px] leading-8 text-black uppercase">
+          <h2
+            ref={suggestionTitleRef}
+            className="font-manrope font-bold text-[32px] tracking-[1.14px] leading-8 text-black uppercase"
+          >
             you may also like
           </h2>
           <div
             ref={suggestionsRef}
             className="suggestion-card w-full grid grid-cols-1 gap-14.25 md:grid-cols-3 md:gap-2.75 lg:gap-7.5 h-117.75 mt-16"
           >
-            {youMayAlsoLike?.map((el) => (
-              <SuggestionCart product={el} key={el.documentId} />
+            {youMayAlsoLike?.map((el, index) => (
+              <SuggestionCart
+                ref={(el) => (cardsRef.current[index] = el)}
+                product={el}
+                key={el.documentId}
+              />
             ))}
           </div>
         </div>

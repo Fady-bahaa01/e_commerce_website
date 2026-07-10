@@ -1,24 +1,55 @@
-import { useLayoutEffect } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function useSuggestionAnimation() {
-  useLayoutEffect(() => {
-    const cards = gsap.utils.toArray(".suggestion-card");
+export default function useSuggestionAnimation(
+  suggestionsRef,
+  cardsRef,
+  titleRef,
+  productId,
+) {
+  useGSAP(() => {
+    if (!suggestionsRef.current) return;
 
-    gsap.from(cards, {
-      opacity: 0,
-      y: 60,
-      scale: 0.96,
-      stagger: 0.18,
-      duration: 1,
-      ease: "expo.out",
+    const tl = gsap.timeline({
+
       scrollTrigger: {
-        trigger: cards[0],
-        start: "top 80%",
+
+        trigger: suggestionsRef.current,
+
+        start: "top 75%",
+
       },
+
     });
-  }, []);
+
+    tl.from(titleRef.current,{
+
+      opacity:0,
+
+      y:40,
+
+      duration:.8,
+
+      ease:"expo.out"
+
+    })
+
+    .from(cardsRef.current,{
+
+      opacity:0,
+
+      y:70,
+
+      stagger:.18,
+
+      duration:.8,
+
+      ease:"expo.out"
+
+    },"-=.35");
+
+  },[productId]);
 }

@@ -1,17 +1,16 @@
-import { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 import { domain } from "../store";
 
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SuggestionCart({ product }) {
-  useEffect(() => {
-    // const navigate = useNavigate();
-    // let url = domain + `/product/${product?.documentId}`;
-    // navigate(url);
-  }, [product?.documentId]);
+const SuggestionCart = forwardRef(({ product }, ref) => {
+  useEffect(() => {}, [product?.documentId]);
 
   return (
-    <div className="w-full md:w-55.75 lg:w-87.5 h-66.25 md:h-full flex flex-col items-center ">
+    <div
+      ref={ref}
+      className="w-full md:w-55.75 lg:w-87.5 h-66.25 md:h-full flex flex-col items-center "
+    >
       <div className="w-full h-30 md:h-79.5 bg-Gray flex justify-center items-center rounded-lg ">
         <img
           src={domain + product?.prodimage.url}
@@ -30,4 +29,6 @@ export default function SuggestionCart({ product }) {
       </Link>
     </div>
   );
-}
+});
+
+export default SuggestionCart;

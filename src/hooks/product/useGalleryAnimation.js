@@ -1,24 +1,29 @@
-import { useLayoutEffect } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function useGalleryAnimation() {
-  useLayoutEffect(() => {
-    const cards = gsap.utils.toArray(".gallery-item");
+export default function useGalleryAnimation(
+  galleryRef,
+  galleryImagesRef,
+  productId,
+) {
+  useGSAP(() => {
+    if (!galleryRef.current) return;
 
-    gsap.from(cards, {
+    gsap.from(galleryImagesRef.current, {
       opacity: 0,
-      y: 70,
-      scale: 0.95,
+      y: 80,
+      scale: 0.94,
       duration: 1,
       stagger: 0.18,
       ease: "expo.out",
+
       scrollTrigger: {
-        trigger: cards[0],
-        start: "top 85%",
+        trigger: galleryRef.current,
+        start: "top 75%",
       },
     });
-  }, []);
+  }, [productId]);
 }
