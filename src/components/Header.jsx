@@ -1,19 +1,20 @@
 import { Link } from "react-router-dom";
 import { MdOutlineMenu } from "react-icons/md";
 import { PiShoppingCartThin } from "react-icons/pi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
-import { domain, useCart } from "../store";
+import { useCart } from "../store";
 import { toggleMenu } from "../store";
 import { cart } from "../store";
+import { useQuery } from "@tanstack/react-query";
 import gsap from "gsap";
 import useHeaderEntrance from "../hooks/useHeaderEntrance";
 import useCartHover from "../hooks/useCartHover";
 import useCartBadge from "../hooks/useCartBadge";
 import useStickyHeader from "../hooks/useStickyHeader";
+import { getCategories } from "../services/categoryService";
 
 export default function Header() {
-  const [category, setCategory] = useState([]);
   const { openMenu } = toggleMenu();
   const { openCart } = cart();
   const { items } = useCart();
@@ -23,13 +24,15 @@ export default function Header() {
   const badge = useRef(null);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
-  useHeaderEntrance(logo, navItems, Cart, category);
 
-  useStickyHeader(headerRef, logo);
-
-  useCartHover(Cart);
-
-  useCartBadge(badge, items.length);
+  const {
+    data: category = [],
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
 
   const addToRefs = (el) => {
     if (el && !navItems.current.includes(el)) {
@@ -37,20 +40,12 @@ export default function Header() {
     }
   };
 
-  useEffect(() => {
-    let url = domain + "/api/categories";
-    axios
-      .get(url, {
-        params: {
-          populate: "*",
-        },
-      })
-      .then((res) => {
-        setCategory(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((err) => {});
-  }, []);
+  useHeaderEntrance(logo, navItems, Cart, category);
+  useStickyHeader(headerRef, logo);
+  useCartHover(Cart);
+  useCartBadge(badge, items.length);
+
+  const CategoriesLoading = category.length === 0;
 
   useEffect(() => {
     if (!menuRef.current) return;
@@ -112,16 +107,17 @@ export default function Header() {
           >
             HOME
           </Link>
-          {category?.map((el) => (
-            <Link
-              ref={addToRefs}
-              key={el.documentId}
-              to={`/category/${el.documentId}`}
-              className="font-manrope uppercase font-bold text-[13px] text-white hover:text-realorange"
-            >
-              {el.name}
-            </Link>
-          ))}
+          {!CategoriesLoading &&
+            category?.map((el) => (
+              <Link
+                ref={addToRefs}
+                key={el.documentId}
+                to={`/category/${el.documentId}`}
+                className="font-manrope uppercase font-bold text-[13px] text-white hover:text-realorange"
+              >
+                {el.name}
+              </Link>
+            ))}
         </div>
         <div ref={Cart} className="lg:ml-[319.5px] relative">
           <PiShoppingCartThin

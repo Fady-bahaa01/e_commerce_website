@@ -1,11 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { domain } from "../store";
 import ProductImages from "../components/ProductImages";
 import SuggestionCart from "../components/SuggestionCart";
 import CategoriesCart from "../components/CategoriesCart";
 import { useCart } from "../store";
+import useHeroAnimation from "../hooks/product/useHeroAnimation";
+import useFeaturesAnimation from "../hooks/product/useFeaturesAnimation";
+import useGalleryAnimation from "../hooks/product/useGalleryAnimation";
+import useSuggestionAnimation from "../hooks/product/useSuggestionAnimation";
+import useAddToCartAnimation from "../hooks/product/useAddToCartAnimation";
 
 export default function ProductDetails() {
   const param = useParams();
@@ -14,7 +19,39 @@ export default function ProductDetails() {
   const [category, setCategory] = useState([]);
   const [item, setItems] = useState([]);
   const [youMayAlsoLike, setYouMayAlsoLike] = useState([]);
-  console.log(item);
+  const imageRef = useRef(null);
+  const contentRef = useRef(null);
+
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const priceRef = useRef(null);
+
+  const quantityRef = useRef(null);
+  const addToCartRef = useRef(null);
+
+  const featuresRef = useRef(null);
+  const galleryRef = useRef(null);
+  const suggestionsRef = useRef(null);
+  const boxRef = useRef(null);
+
+  useHeroAnimation(
+    imageRef,
+    contentRef,
+    titleRef,
+    descriptionRef,
+    priceRef,
+    quantityRef,
+    addToCartRef,
+    param.id,
+  );
+
+  useFeaturesAnimation(featuresRef, boxRef, param.id);
+
+  useGalleryAnimation(galleryRef, param.id);
+
+  useSuggestionAnimation(suggestionsRef, param.id);
+
+  const animateAddToCart = useAddToCartAnimation(addToCartRef);
 
   const incrementQty = () => {
     setProduct((prev) => ({
@@ -105,27 +142,40 @@ export default function ProductDetails() {
         <div className="w-full h-188.75 lg:h-140 flex flex-wrap md:flex-nowrap gap-8 md:gap-17.25 lg:gap-31.25 mt-14">
           <div className="w-full md:w-70.25 lg:w-135 h-81.75 md:h-120 lg:h-full flex items-center justify-center bg-Gray rounded-xl">
             <img
+              ref={imageRef}
               src={domain + product?.prodimage.url}
               alt=""
               className="w-55 h-60.75 lg:w-[349.24px] lg:h-96.5"
             />
           </div>
-          <div className=" w-full md:w-[339.5px] lg:w-[445.5px] h-94.25 md:h-97.5 lg:h-85.75  lg:mx-0 lg:my-19">
+          <div
+            ref={contentRef}
+            className=" w-full md:w-[339.5px] lg:w-[445.5px] h-94.25 md:h-97.5 lg:h-85.75  lg:mx-0 lg:my-19"
+          >
             <p className="font-manrope font-normal text-[14px] text-realorange tracking-[8.75px] lg:tracking-[10px]">
               NEW PRODUCT
             </p>
-            <h2 className="font-manrope  text-start font-bold text-black md:text-[28px] lg:text-[40px] leading-8 lg:leading-11 tracking-[1.43px] uppercase mt-4.75">
+            <h2
+              ref={titleRef}
+              className="font-manrope  text-start font-bold text-black md:text-[28px] lg:text-[40px] leading-8 lg:leading-11 tracking-[1.43px] uppercase mt-4.75"
+            >
               {product?.name}
             </h2>
-            <p className=" font-manrope font-normal text-[15px] text-black/50 leading-6.25 mt-6 md:mt-8">
+            <p
+              ref={descriptionRef}
+              className=" font-manrope font-normal text-[15px] text-black/50 leading-6.25 mt-6 md:mt-8"
+            >
               {product?.description}
             </p>
-            <p className=" font-manrope font-normal text-[15px] text-black tracking-[1.29px] mt-6 md:mt-8">
+            <p
+              ref={priceRef}
+              className=" font-manrope font-normal text-[15px] text-black tracking-[1.29px] mt-6 md:mt-8"
+            >
               $ {product?.price}
             </p>
 
             <div className="w-full flex gap-4 ">
-              <div className="w-30 h-12 bg-Gray flex mt-auto">
+              <div ref={quantityRef} className="w-30 h-12 bg-Gray flex mt-auto">
                 <div className="w-1/3 h-full flex justify-center items-center">
                   <button
                     onClick={() => decrementQty(product?.documentId)}
@@ -149,6 +199,7 @@ export default function ProductDetails() {
                 </div>
               </div>
               <button
+                ref={addToCartRef}
                 onClick={() => addToCart(product)}
                 className="w-40 h-12 mt-6 lg:mt-10 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
               >
@@ -158,7 +209,10 @@ export default function ProductDetails() {
           </div>
         </div>
         <div className="w-full h-210 md:h-148.75 lg:h-79.5 flex flex-wrap lg:flex-nowrap gap-22 md:gap-30 lg:gap-31.25 mt-22 md:mt-30 lg:mt-40">
-          <div className="w-full lg:w-158.75 h-133.75 md:h-79.5 lg:h-full">
+          <div
+            ref={featuresRef}
+            className="w-full lg:w-158.75 h-133.75 md:h-79.5 lg:h-full"
+          >
             <h2 className="font-manrope font-bold text-[24px] md:text-[32px] leading-9 tracking-[1.14px] text-black">
               FEATURES
             </h2>
@@ -166,7 +220,10 @@ export default function ProductDetails() {
               {product?.feature}
             </p>
           </div>
-          <div className="w-full h-54.25 md:w-137.25 md:h-39.25 lg:w-87.5 lg:h-56.25 sm:block md:flex md:justify-between lg:block">
+          <div
+            ref={boxRef}
+            className="w-full h-54.25 md:w-137.25 md:h-39.25 lg:w-87.5 lg:h-56.25 sm:block md:flex md:justify-between lg:block"
+          >
             <h2 className="font-manrope font-bold text-[24px] md:text-[32px] leading-9 tracking-[1.14px] text-black uppercase mb-8">
               in the box
             </h2>
@@ -185,7 +242,10 @@ export default function ProductDetails() {
           </div>
         </div>
         {product?.productimages && (
-          <div className="w-full h-189 md:h-92 lg:h-148 mt-40  md:mb-0 md:auto-cols-[277px] lg:auto-cols-[445px]  md:auto-rows-[174px] lg:auto-rows-[280px] grid-cols-1 md:grid-cols-[277px_395px] grid lg:grid-cols-[445px_635px] md:gap-x-4.5 lg:gap-x-7.5 gap-y-5 lg:gap-y-8 ">
+          <div
+            ref={galleryRef}
+            className="gallery-item w-full h-189 md:h-92 lg:h-148 mt-40  md:mb-0 md:auto-cols-[277px] lg:auto-cols-[445px]  md:auto-rows-[174px] lg:auto-rows-[280px] grid-cols-1 md:grid-cols-[277px_395px] grid lg:grid-cols-[445px_635px] md:gap-x-4.5 lg:gap-x-7.5 gap-y-5 lg:gap-y-8 "
+          >
             {product?.productimages?.map((el, index) => (
               <ProductImages
                 number={index}
@@ -200,7 +260,10 @@ export default function ProductDetails() {
           <h2 className="font-manrope font-bold text-[32px] tracking-[1.14px] leading-8 text-black uppercase">
             you may also like
           </h2>
-          <div className="w-full grid grid-cols-1 gap-14.25 md:grid-cols-3 md:gap-2.75 lg:gap-7.5 h-117.75 mt-16">
+          <div
+            ref={suggestionsRef}
+            className="suggestion-card w-full grid grid-cols-1 gap-14.25 md:grid-cols-3 md:gap-2.75 lg:gap-7.5 h-117.75 mt-16"
+          >
             {youMayAlsoLike?.map((el) => (
               <SuggestionCart product={el} key={el.documentId} />
             ))}

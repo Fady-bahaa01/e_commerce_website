@@ -12,12 +12,13 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroSkeleton from "../Skeletons/HeroSkeleton";
 import CategoriesSkeleton from "../Skeletons/CategoriesSkeleton";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../services/productService";
+import { getCategories } from "../services/categoryService";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function Homepage() {
-  const [product, setProduct] = useState([]);
-  const [category, setCategory] = useState([]);
   const { value } = toggleMenu();
   const title = useRef(null);
   const subtitle = useRef(null);
@@ -27,73 +28,26 @@ export default function Homepage() {
   const Upcontainer = useRef(null);
   const gridRef = useRef(null);
 
-  useEffect(() => {
-    let url = domain + "/api/products";
-    axios
-      .get(url, {
-        params: {
-          filters: {
-            id: {
-              $in: [16, 13, 12, 11],
-            },
-          },
-          populate: "*",
-        },
-      })
-      .then((res) => {
-        setProduct(res.data.data);
-      })
-      .catch((err) => {});
-  }, []);
+  const {
+    data: product = [],
+    isLoading: productsLoading,
+    error: productsError,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
 
-  useEffect(() => {
-    let url = domain + "/api/categories";
-    axios
-      .get(url, {
-        params: {
-          populate: "*",
-        },
-      })
-      .then((res) => {
-        setCategory(res.data.data);
-      })
-      .catch((err) => {});
+  const {
+    data: category = [],
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
 
-    // const tl = gsap.timeline();
-
-    // tl.from(title.current, {
-    //   x: -80,
-    //   opacity: 0,
-    //   duration: 0.8,
-    // })
-    //   .from(
-    //     subtitle.current,
-    //     {
-    //       x: -80,
-    //       opacity: 0,
-    //       duration: 0.8,
-    //     },
-    //     "-=0.5",
-    //   )
-    //   .from(
-    //     button.current,
-    //     {
-    //       y: 30,
-    //       opacity: 0,
-    //       duration: 0.6,
-    //     },
-    //     "-=0.4",
-    //   )
-    //   .from(
-    //     image.current,
-    //     {
-    //       scale: 0.8,
-    //       opacity: 0,
-    //       duration: 1,
-    //     },
-    //     "-=0.8",
-    //   );
-  }, []);
+  const ProductsLoading = product.length === 0;
+  const CategoriesLoading = category.length === 0;
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -223,30 +177,32 @@ export default function Homepage() {
               <p className="font-manrope font-normal text-[14px] text-white/45 tracking-[10px]">
                 NEW PRODUCT
               </p>
-              {product.length === 0 ? (
+              {productsLoading ? (
                 <HeroSkeleton />
               ) : (
-                <h2
-                  ref={title}
-                  className="text-center lg:text-start font-manrope font-bold text-[37px] md:text-[56px] tracking-[2px] uppercase text-white leading-14.5 mt-4 md:mt-6"
-                >
-                  {product[3]?.name}
-                </h2>
+                <div>
+                  <h2
+                    ref={title}
+                    className="text-center lg:text-start font-manrope font-bold text-[37px] md:text-[56px] tracking-[2px] uppercase text-white leading-14.5 mt-4 md:mt-6"
+                  >
+                    {product[3]?.name}
+                  </h2>
+                  <p
+                    ref={subtitle}
+                    className="text-center lg:text-start w-82 mb-7 md:mb-0 md:w-87.25 font-manrope font-normal text-[15px] text-white/75 leading-6.25 mt-6"
+                  >
+                    Experience natural, lifelike audio and exceptional build
+                    quality made for the passionate music enthusiast.
+                  </p>
+                  <Link
+                    ref={button}
+                    to={`/product/${product[3]?.documentId}`}
+                    className="w-40 h-12 md:mt-10 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
+                  >
+                    See Product
+                  </Link>
+                </div>
               )}
-              <p
-                ref={subtitle}
-                className="text-center lg:text-start w-82 mb-7 md:mb-0 md:w-87.25 font-manrope font-normal text-[15px] text-white/75 leading-6.25 mt-6"
-              >
-                Experience natural, lifelike audio and exceptional build quality
-                made for the passionate music enthusiast.
-              </p>
-              <Link
-                ref={button}
-                to={`/product/${product[3]?.documentId}`}
-                className="w-40 h-12 md:mt-10 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
-              >
-                See Product
-              </Link>
             </div>
             <div
               ref={imageWrapper}
@@ -268,7 +224,7 @@ export default function Homepage() {
             ref={gridRef}
             className=" w-full mt-50 grid md:grid-cols-3 grid-cols-1 md:gap-2.5 lg:gap-7.5 gap-17"
           >
-            {category.length == 0 ? (
+            {categoriesLoading ? (
               <CategoriesSkeleton />
             ) : (
               category?.map((el, index) => (
