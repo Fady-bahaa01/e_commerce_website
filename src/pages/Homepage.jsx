@@ -180,7 +180,7 @@ export default function Homepage() {
               {productsLoading ? (
                 <HeroSkeleton />
               ) : (
-                <div>
+                <div className="flex flex-col items-center lg:items-start">
                   <h2
                     ref={title}
                     className="text-center lg:text-start font-manrope font-bold text-[37px] md:text-[56px] tracking-[2px] uppercase text-white leading-14.5 mt-4 md:mt-6"

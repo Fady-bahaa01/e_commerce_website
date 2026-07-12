@@ -74,7 +74,7 @@ export default function ProductDetails() {
     priceRef,
     quantityRef,
     addToCartRef,
-    param.id,
+    product?.documentId,
   );
 
   useGalleryAnimation(galleryRef, galleryImagesRef, param.id);
@@ -96,7 +96,7 @@ export default function ProductDetails() {
 
   useGoBackAnimation(goBackRef);
 
-  useProductTransition(param.id);
+  useProductTransition(product?.documentId);
 
   const incrementQty = () => {
     setProduct((prev) => ({
