@@ -90,7 +90,7 @@ export default function Mainlayout() {
       {state && (
         <div
           ref={cartRef}
-          className={`z-50  fixed top-8 rounded-lg right-0 w-81.75 md:w-94.25 h-122 md:h-122 flex justify-center   bg-white  `}
+          className={`z-70  fixed top-24 rounded-lg right-0 w-81.75 md:w-94.25 h-122 md:h-122 flex justify-center   bg-white  `}
         >
           <div className="container max-w-67.75 md:max-w-78.25 mt-7.75">
             <div className="w-full h-6.25 flex justify-between">
