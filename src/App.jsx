@@ -5,11 +5,13 @@ import ProductDetails from "./pages/ProductDetails";
 import Category from "./pages/Category";
 import CheckoutPage from "./pages/CheckoutPage";
 import Error404Page from "./pages/Error404Page";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 export default function App() {
   return (
     <div className="w-full h-dvh ">
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Mainlayout />}>
             <Route index element={<Homepage />} />

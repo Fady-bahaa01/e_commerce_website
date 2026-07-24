@@ -8,9 +8,20 @@ export default function useMainLayout(
   value,
   state,
 ) {
+  // Initial positions
   useEffect(() => {
+    if (!menuRef.current || !cartRef.current || !overlayRef.current) return;
+
+    gsap.set(menuRef.current, {
+      y: -500,
+      opacity: 0,
+      pointerEvents: "none",
+    });
+
     gsap.set(cartRef.current, {
       xPercent: 120,
+      opacity: 0,
+      pointerEvents: "none",
     });
 
     gsap.set(overlayRef.current, {
@@ -19,20 +30,94 @@ export default function useMainLayout(
     });
   }, []);
 
+  // Body scroll + overlay
   useEffect(() => {
-    if (state) {
+    if (value || state) {
       document.body.style.overflow = "hidden";
-
-      gsap.to(cartRef.current, {
-        xPercent: -6,
-        duration: 1,
-        ease: "expo.out",
-      });
 
       gsap.to(overlayRef.current, {
         opacity: 1,
+        duration: 0.35,
+        ease: "power2.out",
+      });
+
+      overlayRef.current.style.pointerEvents = "auto";
+    } else {
+      document.body.style.overflow = "auto";
+
+      gsap.to(overlayRef.current, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.inOut",
+        onComplete: () => {
+          overlayRef.current.style.pointerEvents = "none";
+        },
+      });
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [value, state]);
+
+  // Menu animation
+  useEffect(() => {
+    if (!menuRef.current) return;
+
+    const menu = menuRef.current;
+
+    gsap.killTweensOf(menu);
+
+    if (value) {
+      gsap.to(menu, {
+        y: 96,
+        opacity: 1,
+        duration: 0.7,
+        ease: "expo.out",
         pointerEvents: "auto",
-        duration: 0.4,
+      });
+
+      gsap.fromTo(
+        ".menu-card",
+        {
+          y: 30,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.08,
+          delay: 0.15,
+          ease: "power3.out",
+        },
+      );
+    } else {
+      gsap.to(menu, {
+        y: -500,
+        opacity: 0,
+        duration: 0.5,
+        ease: "expo.inOut",
+        pointerEvents: "none",
+      });
+    }
+  }, [value]);
+
+  // Cart animation
+  useEffect(() => {
+    if (!cartRef.current) return;
+
+    const cart = cartRef.current;
+
+    gsap.killTweensOf(cart);
+
+    if (state) {
+      gsap.to(cart, {
+        xPercent: -6,
+        opacity: 1,
+        duration: 0.8,
+        ease: "expo.out",
+        pointerEvents: "auto",
       });
 
       gsap.fromTo(
@@ -51,72 +136,13 @@ export default function useMainLayout(
         },
       );
     } else {
-      document.body.style.overflow = "auto";
-
-      gsap.to(cartRef.current, {
+      gsap.to(cart, {
         xPercent: 120,
-        duration: 0.8,
-        ease: "expo.inOut",
-      });
-
-      gsap.to(overlayRef.current, {
         opacity: 0,
+        duration: 0.6,
+        ease: "expo.inOut",
         pointerEvents: "none",
-        duration: 0.3,
       });
     }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
   }, [state]);
-
-  useEffect(() => {
-    gsap.set(menuRef.current, {
-      y: -500,
-      opacity: 0,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (value) {
-      document.body.style.overflow = "hidden";
-
-      gsap.to(menuRef.current, {
-        y: 96,
-        opacity: 1,
-        duration: 1,
-        ease: "expo.out",
-      });
-
-      gsap.fromTo(
-        ".menu-card",
-        {
-          y: 40,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.08,
-          duration: 0.7,
-          ease: "power3.out",
-          delay: 0.15,
-        },
-      );
-    } else {
-      document.body.style.overflow = "auto";
-
-      gsap.to(menuRef.current, {
-        y: -500,
-        opacity: 0,
-        duration: 0.8,
-        ease: "expo.inOut",
-      });
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [value]);
 }

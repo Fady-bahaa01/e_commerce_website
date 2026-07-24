@@ -85,7 +85,7 @@ export default function ProductDetails() {
     suggestionsRef,
     cardsRef,
     suggestionTitleRef,
-    param.id,
+    youMayAlsoLike.length,
   );
 
   useQuantityAnimation({
@@ -158,20 +158,6 @@ export default function ProductDetails() {
       });
   }, []);
 
-  useEffect(() => {
-    let prodId = param?.id;
-    let url = domain + `/api/products/${prodId}`;
-    axios
-      .get(url, {
-        params: {
-          populate: "*",
-        },
-      })
-      .then((res) => {
-        setProduct(res.data.data);
-      });
-  }, [param?.id]);
-
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="container w-full flex items-center flex-col justify-center max-w-81.75 md:max-w-172.25 lg:max-w-277.5">
@@ -185,7 +171,7 @@ export default function ProductDetails() {
             Go Back
           </Link>
         </div>
-        <div className="w-full h-188.75 lg:h-140 flex flex-wrap md:flex-nowrap gap-8 md:gap-17.25 lg:gap-31.25 mt-14">
+        <div className="w-full h-188.75 md:h-120 lg:h-140 flex flex-wrap md:flex-nowrap gap-8 md:gap-17.25 lg:gap-31.25 mt-14">
           <div className="w-full md:w-70.25 lg:w-135 h-81.75 md:h-120 lg:h-full flex items-center justify-center bg-Gray rounded-xl">
             <img
               ref={imageRef}

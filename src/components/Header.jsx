@@ -3,8 +3,8 @@ import { MdOutlineMenu } from "react-icons/md";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { useEffect, useRef } from "react";
 import axios from "axios";
-import { useCart } from "../store";
-import { toggleMenu } from "../store";
+import { toggleMenu, useCart } from "../store";
+
 import { cart } from "../store";
 import { useQuery } from "@tanstack/react-query";
 import gsap from "gsap";
@@ -15,8 +15,8 @@ import useStickyHeader from "../hooks/useStickyHeader";
 import { getCategories } from "../services/categoryService";
 
 export default function Header() {
-  const { openMenu } = toggleMenu();
-  const { openCart } = cart();
+  const { openMenu, closeMenu, MenuToggle } = toggleMenu();
+  const { openCart, CartToggle } = cart();
   const { items } = useCart();
   const logo = useRef(null);
   const navItems = useRef([]);
@@ -89,7 +89,7 @@ export default function Header() {
           size={16}
           className="lg:hidden  h-3.75 cursor-pointer"
           onClick={() => {
-            openMenu();
+            MenuToggle();
           }}
         />
 
@@ -123,7 +123,7 @@ export default function Header() {
           <PiShoppingCartThin
             size={23.33}
             className="    cursor-pointer"
-            onClick={openCart}
+            onClick={CartToggle}
           />
           {items.length != 0 && (
             <span

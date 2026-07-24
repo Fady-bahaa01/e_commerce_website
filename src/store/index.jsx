@@ -18,6 +18,11 @@ export const toggleMenu = create((set) => ({
         value: false,
       };
     }),
+
+  MenuToggle: () =>
+    set((state) => ({
+      value: !state.value,
+    })),
 }));
 export const cart = create((set) => ({
   state: false,
@@ -33,6 +38,11 @@ export const cart = create((set) => ({
         state: false,
       };
     }),
+
+  CartToggle: () =>
+    set((state) => ({
+      state: !state.state,
+    })),
 }));
 
 export const useCart = create(
