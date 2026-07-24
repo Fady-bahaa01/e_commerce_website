@@ -114,7 +114,7 @@ export default function SpeakerCart() {
         </p>
         <Link
           to={`/product/${product[0]?.documentId}`}
-          className="w-40 h-12  flex justify-center items-center uppercase bg-dark hover:bg-[#4C4C4C] font-manrope text-[13px] font-bold text-white tracking-[2px]"
+          className="w-40 h-12  flex justify-center items-center uppercase bg-dark hover:bg-[#4C4C4C] transition duration-250 font-manrope text-[13px] font-bold text-white tracking-[2px]"
         >
           See Product
         </Link>

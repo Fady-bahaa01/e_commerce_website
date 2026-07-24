@@ -63,7 +63,7 @@ export default function BigspeakerCart() {
         </p>
         <Link
           to={`/product/${product[0]?.documentId}`}
-          className="w-40 h-12  flex justify-center items-center uppercase border border-black bg-transparent hover:bg-black hover:text-white font-manrope text-[13px] font-bold text-black tracking-[2px]"
+          className="w-40 h-12  flex justify-center items-center uppercase border border-black bg-transparent hover:bg-black transition duration-250 hover:text-white font-manrope text-[13px] font-bold text-black tracking-[2px]"
         >
           See Product
         </Link>

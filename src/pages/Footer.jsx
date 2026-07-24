@@ -32,7 +32,7 @@ export default function Footer({ margin }) {
               <Link
                 key={el.documentId}
                 to={`category/${el.documentId}`}
-                className="font-manrope uppercase font-bold text-[13px] text-white hover:text-realorange"
+                className="font-manrope uppercase font-bold text-[13px] text-white hover:text-realorange transition duration-250"
               >
                 {el.name}
               </Link>
@@ -54,7 +54,7 @@ export default function Footer({ margin }) {
               href="https://www.facebook.com/share/19JnDGyjFX/?mibextid=wwXIfr"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-realorange"
+              className="hover:text-realorange transition duration-250"
             >
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
                 <path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9c0-.7.3-1 1-1z" />
@@ -64,7 +64,7 @@ export default function Footer({ margin }) {
               href="https://x.com/"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-realorange"
+              className="hover:text-realorange transition duration-250"
             >
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817-5.964 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
@@ -74,7 +74,7 @@ export default function Footer({ margin }) {
               href="https://www.instagram.com/fady.bahaa_?utm_source=qr"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-realorange"
+              className="hover:text-realorange transition duration-250"
             >
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
                 <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-3.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z" />

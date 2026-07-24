@@ -113,7 +113,7 @@ export default function Header() {
                 ref={addToRefs}
                 key={el.documentId}
                 to={`/category/${el.documentId}`}
-                className="font-manrope uppercase font-bold text-[13px] text-white hover:text-realorange"
+                className="font-manrope uppercase font-bold text-[13px] text-white hover:text-realorange "
               >
                 {el.name}
               </Link>
@@ -122,7 +122,7 @@ export default function Header() {
         <div ref={Cart} className="lg:ml-[319.5px] relative">
           <PiShoppingCartThin
             size={23.33}
-            className="    cursor-pointer"
+            className=" cursor-pointer"
             onClick={CartToggle}
           />
           {items.length != 0 && (
