@@ -12,6 +12,7 @@ import Overlay from "./components/Overlay";
 import Header from "./components/Header";
 import Portfolio from "./components/Portfolio";
 import useMainLayout from "./hooks/useMainLayout";
+import { PiShoppingCartThin } from "react-icons/pi";
 
 export default function Mainlayout() {
   const { count } = useCart();
@@ -104,10 +105,24 @@ export default function Mainlayout() {
             </button>
           </div>
           {items.length == 0 ? (
-            <div className="w-full h-full flex justify-center items-center">
-              <p className="font-manrope font-bold text-[18px] tracking-[1.17px] text-black uppercase">
-                there is no items added
+            <div className="w-full h-80 flex flex-col justify-center items-center text-center">
+              <PiShoppingCartThin size={55} className="text-black/25 mb-5" />
+
+              <p className="font-manrope font-bold text-[18px] tracking-[1px] text-black uppercase">
+                your cart is empty
               </p>
+
+              <p className="font-manrope text-[14px] leading-6 text-black/50 mt-3">
+                Looks like you haven't added anything yet.
+              </p>
+
+              <Link
+                to="/"
+                onClick={closeCart}
+                className="w-40 h-12 mt-6 flex justify-center items-center uppercase bg-realorange hover:bg-faintorange font-manrope text-[13px] font-bold text-white tracking-[2px]"
+              >
+                continue shopping
+              </Link>
             </div>
           ) : (
             <div className="w-full mt-8 h-60 overflow-auto flex flex-col gap-6">
